@@ -1,5 +1,3 @@
-"""Emotion detection module using IBM Watson NLP service."""
-
 import json
 import requests
 
@@ -32,7 +30,7 @@ def emotion_detector(text_to_analyze):
 
     response = requests.post(url, json=payload, headers=headers)
 
-    # Handle blank input / bad request
+    #  Handle blank input / bad request
     if response.status_code == 400:
         return {
             "anger": None,
@@ -40,13 +38,11 @@ def emotion_detector(text_to_analyze):
             "fear": None,
             "joy": None,
             "sadness": None,
-            "dominant_emotion": None,
+            "dominant_emotion": None
         }
 
     formatted_response = json.loads(response.text)
-    emotion_scores = (
-        formatted_response["emotionPredictions"][0]["emotion"]
-    )
+    emotion_scores = formatted_response["emotionPredictions"][0]["emotion"]
 
     dominant_emotion = max(emotion_scores, key=emotion_scores.get)
 
@@ -56,6 +52,5 @@ def emotion_detector(text_to_analyze):
         "fear": emotion_scores["fear"],
         "joy": emotion_scores["joy"],
         "sadness": emotion_scores["sadness"],
-        "dominant_emotion": dominant_emotion,
+        "dominant_emotion": dominant_emotion
     }
-    
